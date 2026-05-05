@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Sentiment Tracker — Pipeline Explainer</title>
+<title>Sentiment Tracker - Pipeline Explainer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@500;700;800&display=swap" rel="stylesheet">
@@ -584,7 +584,7 @@
   <section class="screen active" id="screen-home">
     <div class="hero">
       <h1>Sentiment Tracker<em>under the hood.</em></h1>
-      <p class="lead">An interactive walkthrough of the same Python pipeline running two different ways — a web app on Streamlit Cloud and a local command-line tool. Pick a path, then tour the files, watch a real user session flow through the code, or view the connected-lines architecture diagram.</p>
+      <p class="lead">An interactive walkthrough of the same Python pipeline running two different ways - a web app on Streamlit Cloud and a local command-line tool. Pick a path, then tour the files, watch a real user session flow through the code, or view the connected-lines architecture diagram.</p>
     </div>
 
     <div class="path-grid">
@@ -648,9 +648,9 @@
 
       <div class="narrative">
         <div id="narrative-body">
-          <div class="step-counter" id="step-counter">step — / —</div>
-          <div class="step-title" id="step-title">—</div>
-          <div class="step-body" id="step-body">—</div>
+          <div class="step-counter" id="step-counter">step - / -</div>
+          <div class="step-title" id="step-title">-</div>
+          <div class="step-body" id="step-body">-</div>
           <div class="fn-list" id="fn-list" style="display:none"></div>
           <div class="step-meta" id="step-meta"></div>
         </div>
@@ -700,7 +700,7 @@
 const PATHS = {
   streamlit: {
     label: 'streamlit path',
-    subtitle: 'The browser app served by Streamlit Cloud. Uses streamlit_app.py as its entry point and renders everything inline in the browser — no visualize.py, no PNG files.',
+    subtitle: 'The browser app served by Streamlit Cloud. Uses streamlit_app.py as its entry point and renders everything inline in the browser - no visualize.py, no PNG files.',
   },
   cli: {
     label: 'cli path',
@@ -758,33 +758,33 @@ const LAYOUTS = {
 
 const FILE_TOURS = {
   streamlit: {
-    title: 'File tour — Streamlit path',
+    title: 'File tour - Streamlit path',
     steps: [
       {
         active:['config'], neighbors:[],
-        title:'config.py — the master switch',
+        title:'config.py - the master switch',
         body:'Every other file in the project imports from <code>config.py</code>. It runs <code>load_dotenv()</code> to read a <code>.env</code> file in the project root, pulls out the <code>NEWSAPI_KEY</code> variable, and computes a single boolean <code>DEMO_MODE = not bool(NEWSAPI_KEY)</code>. That boolean controls fallback behavior across the whole system.',
         fns:[{name:'load_dotenv()', hi:true}, {name:'NEWSAPI_KEY'}, {name:'DEMO_MODE', hi:true}],
         meta:{'Role':'configuration', 'Imported by':'every file', 'Key export':'DEMO_MODE'}
       },
       {
         active:['entry'], neighbors:['config','sentiment','portfolio'],
-        title:'streamlit_app.py — the coordinator',
+        title:'streamlit_app.py - the coordinator',
         body:'This is the file Streamlit Cloud actually runs. The entire file executes top to bottom on every click. It reads widget values, decides which branch to execute (add/remove/display/sentiment), calls functions in <code>sentiment.py</code> and <code>portfolio.py</code>, builds matplotlib figures inline, and hands them to <code>st.pyplot</code>. It does not import or use <code>visualize.py</code>.',
         fns:[{name:'st.set_page_config'}, {name:'sidebar form', hi:true}, {name:'portfolio table', hi:true}, {name:'sentiment panel', hi:true}, {name:'correlation scatter'}, {name:'st.rerun()'}],
         meta:{'Role':'entry point', 'Execution':'re-runs top to bottom', 'Trigger':'any widget interaction'}
       },
       {
         active:['sentiment'], neighbors:['config','newsapi','vader','entry'],
-        title:'sentiment.py — text to score',
-        body:'Owns the news-to-sentiment pipeline. <code>fetch_articles</code> either hits NewsAPI over HTTP or (when <code>DEMO_MODE</code> is True) returns hardcoded sample headlines from <code>_DEMO_ARTICLES</code>. <code>score_text</code> hands each headline to VADER — a local lexicon scorer with no HTTP or model download. <code>analyse_sentiment</code> wraps both and returns a dict with <code>ticker, articles, avg_compound, article_count</code>.',
+        title:'sentiment.py - text to score',
+        body:'Owns the news-to-sentiment pipeline. <code>fetch_articles</code> either hits NewsAPI over HTTP or (when <code>DEMO_MODE</code> is True) returns hardcoded sample headlines from <code>_DEMO_ARTICLES</code>. <code>score_text</code> hands each headline to VADER - a local lexicon scorer with no HTTP or model download. <code>analyse_sentiment</code> wraps both and returns a dict with <code>ticker, articles, avg_compound, article_count</code>.',
         fns:[{name:'_DEMO_ARTICLES'}, {name:'_demo_articles'}, {name:'fetch_articles', hi:true}, {name:'score_text', hi:true}, {name:'analyse_sentiment', hi:true}],
         meta:{'Role':'sentiment pipeline', 'Depends on':'NewsAPI, VADER, config', 'Public API':'analyse_sentiment()'}
       },
       {
         active:['portfolio'], neighbors:['yfinance','json','entry'],
-        title:'portfolio.py — state and prices',
-        body:'Owns portfolio state. Reads and writes <code>portfolio.json</code> on the server disk. <code>add_holding</code> averages the cost basis if you add to an existing ticker. <code>get_current_prices</code> wraps <code>yf.Ticker(t).history</code> for each ticker. <code>portfolio_summary</code> combines both — it returns holdings enriched with current price, market value, cost basis, gain/loss, and percentage.',
+        title:'portfolio.py - state and prices',
+        body:'Owns portfolio state. Reads and writes <code>portfolio.json</code> on the server disk. <code>add_holding</code> averages the cost basis if you add to an existing ticker. <code>get_current_prices</code> wraps <code>yf.Ticker(t).history</code> for each ticker. <code>portfolio_summary</code> combines both - it returns holdings enriched with current price, market value, cost basis, gain/loss, and percentage.',
         fns:[{name:'_load_portfolio'}, {name:'_save_portfolio'}, {name:'add_holding', hi:true}, {name:'remove_holding'}, {name:'get_current_prices', hi:true}, {name:'portfolio_summary', hi:true}],
         meta:{'Role':'portfolio state + prices', 'Depends on':'yfinance, portfolio.json', 'Public API':'add/remove/summary'}
       },
@@ -797,47 +797,47 @@ const FILE_TOURS = {
       },
       {
         active:['output'], neighbors:['entry'],
-        title:'Output — directly to the browser',
-        body:'Streamlit never writes files to disk for output. <code>st.dataframe</code>, <code>st.metric</code>, and <code>st.pyplot</code> serialize Python objects (including matplotlib figures as PNG bytes) and stream them as HTML over the websocket connection to the user\'s browser. This is why <code>visualize.py</code> is unused on this path — that file writes PNG files to disk, which the browser would not see.',
+        title:'Output - directly to the browser',
+        body:'Streamlit never writes files to disk for output. <code>st.dataframe</code>, <code>st.metric</code>, and <code>st.pyplot</code> serialize Python objects (including matplotlib figures as PNG bytes) and stream them as HTML over the websocket connection to the user\'s browser. This is why <code>visualize.py</code> is unused on this path - that file writes PNG files to disk, which the browser would not see.',
         fns:[{name:'st.dataframe'}, {name:'st.metric'}, {name:'st.pyplot', hi:true}, {name:'st.rerun'}],
         meta:{'Channel':'websocket to browser', 'Format':'HTML + embedded PNG bytes', 'No file I/O':'figures stay in memory'}
       }
     ]
   },
   cli: {
-    title: 'File tour — CLI path',
+    title: 'File tour - CLI path',
     steps: [
       {
         active:['config'], neighbors:[],
-        title:'config.py — shared with the Streamlit path',
-        body:'Same file, same job. Loads the <code>.env</code> file and sets <code>DEMO_MODE</code>. Imported by <code>sentiment.py</code>. The CLI path uses it the same way the Streamlit path does — it controls whether <code>fetch_articles</code> hits NewsAPI or falls back to sample headlines.',
+        title:'config.py - shared with the Streamlit path',
+        body:'Same file, same job. Loads the <code>.env</code> file and sets <code>DEMO_MODE</code>. Imported by <code>sentiment.py</code>. The CLI path uses it the same way the Streamlit path does - it controls whether <code>fetch_articles</code> hits NewsAPI or falls back to sample headlines.',
         fns:[{name:'load_dotenv()', hi:true}, {name:'NEWSAPI_KEY'}, {name:'DEMO_MODE', hi:true}],
         meta:{'Role':'configuration', 'Identical to':'Streamlit path', 'Key export':'DEMO_MODE'}
       },
       {
         active:['entry'], neighbors:['config','portfolio','sentiment','visualize'],
-        title:'main.py — the menu dispatcher',
-        body:'The CLI entry point. Run with <code>python main.py</code>. The <code>main()</code> function is a <code>while True</code> loop that prints a 7-option menu, reads a digit via <code>input()</code>, and dispatches to a handler. Each handler fires its own <code>input()</code> prompts in sequence and calls out to the modules. The NEW bit in <code>handle_charts</code> is the final PIL preview prompt — after PNGs are written, it asks "Open charts now?" and if yes, uses <code>PIL.Image.open(path).show()</code> to pop them open.',
+        title:'main.py - the menu dispatcher',
+        body:'The CLI entry point. Run with <code>python main.py</code>. The <code>main()</code> function is a <code>while True</code> loop that prints a 7-option menu, reads a digit via <code>input()</code>, and dispatches to a handler. Each handler fires its own <code>input()</code> prompts in sequence and calls out to the modules. The NEW bit in <code>handle_charts</code> is the final PIL preview prompt - after PNGs are written, it asks "Open charts now?" and if yes, uses <code>PIL.Image.open(path).show()</code> to pop them open.',
         fns:[{name:'print_menu'}, {name:'handle_add', hi:true}, {name:'handle_remove'}, {name:'handle_view'}, {name:'handle_summary'}, {name:'handle_sentiment'}, {name:'handle_charts', hi:true}, {name:'main'}],
         meta:{'Role':'entry point', 'Loop':'while True', 'Input method':'input() prompts', 'New bit':'PIL preview in handle_charts'}
       },
       {
         active:['sentiment'], neighbors:['config','newsapi','vader','entry'],
-        title:'sentiment.py — identical to the Streamlit path',
+        title:'sentiment.py - identical to the Streamlit path',
         body:'This is the same file used by Streamlit. The CLI handlers call <code>analyse_sentiment</code> directly just like Streamlit does. <code>handle_sentiment</code> calls it once per ticker in the portfolio. <code>handle_charts</code> calls it once per ticker too, collecting a <code>results</code> list to pass to <code>generate_all_charts</code>.',
         fns:[{name:'fetch_articles', hi:true}, {name:'score_text', hi:true}, {name:'analyse_sentiment', hi:true}],
         meta:{'Role':'sentiment pipeline', 'Called by':'handle_sentiment, handle_charts', 'Shared with':'Streamlit path'}
       },
       {
         active:['portfolio'], neighbors:['yfinance','json','entry'],
-        title:'portfolio.py — shared with Streamlit too',
+        title:'portfolio.py - shared with Streamlit too',
         body:'Same file, same functions. <code>handle_add</code> calls <code>add_holding</code>. <code>handle_view</code> calls <code>get_portfolio</code>. <code>handle_summary</code> calls <code>portfolio_summary</code>. <code>handle_charts</code> calls <code>get_portfolio</code> to loop tickers. Reads and writes <code>portfolio.json</code>, fetches prices via yfinance.',
         fns:[{name:'_load_portfolio'}, {name:'_save_portfolio'}, {name:'add_holding', hi:true}, {name:'remove_holding'}, {name:'get_current_prices'}, {name:'portfolio_summary', hi:true}],
         meta:{'Role':'portfolio state', 'Called by':'every menu option', 'Shared with':'Streamlit path'}
       },
       {
         active:['visualize'], neighbors:['sentiment','portfolio','pngs'],
-        title:'visualize.py — where the CLI diverges',
+        title:'visualize.py - where the CLI diverges',
         body:'This is the file that only the CLI uses. <code>visualize.py</code> builds three matplotlib charts using the Agg backend and saves each as a PNG file to the working directory. <code>plot_sentiment_bars</code> takes the sentiment results list. <code>plot_portfolio_allocation</code> calls <code>portfolio_summary()</code> internally. <code>plot_sentiment_vs_gain</code> zips the two together and computes Pearson correlation with numpy.',
         fns:[{name:'plot_sentiment_bars', hi:true}, {name:'plot_portfolio_allocation', hi:true}, {name:'plot_sentiment_vs_gain', hi:true}, {name:'generate_all_charts', hi:true}],
         meta:{'Role':'chart rendering', 'Output':'3 PNG files', 'Used by':'handle_charts only'}
@@ -845,13 +845,13 @@ const FILE_TOURS = {
       {
         active:['newsapi','vader','yfinance','json'], neighbors:['sentiment','portfolio'],
         title:'External dependencies',
-        body:'Same four external dependencies as the Streamlit path — NewsAPI (HTTP), VADER (local lexicon), yfinance (Yahoo Finance wrapper), and <code>portfolio.json</code> on disk. No difference in what the modules touch; only the entry point and the output format differ.',
+        body:'Same four external dependencies as the Streamlit path - NewsAPI (HTTP), VADER (local lexicon), yfinance (Yahoo Finance wrapper), and <code>portfolio.json</code> on disk. No difference in what the modules touch; only the entry point and the output format differ.',
         fns:[{name:'requests'}, {name:'vaderSentiment'}, {name:'yfinance'}, {name:'json'}],
         meta:{'Identical to':'Streamlit path', 'Disk location':'working directory'}
       },
       {
         active:['pngs','pil'], neighbors:['visualize','entry'],
-        title:'Output — PNG files + optional PIL viewer',
+        title:'Output - PNG files + optional PIL viewer',
         body:'<code>visualize.py</code> writes three PNG files: <code>sentiment_bars.png</code>, <code>portfolio_allocation.png</code>, and <code>sentiment_vs_gain.png</code>. That was the full output until the recent change. Now <code>handle_charts</code> also fires <code>input("Open charts now? (y/n): ")</code>. If the user types <code>y</code>, it loops through the three filenames and calls <code>PIL.Image.open(name).show()</code>, which opens each PNG in the OS default image viewer.',
         fns:[{name:'fig.savefig', hi:true}, {name:'PIL.Image.open', hi:true}, {name:'.show()', hi:true}],
         meta:{'Channel 1':'PNG files to disk', 'Channel 2':'PIL → system viewer', 'New bit':'PIL preview is opt-in'}
@@ -870,7 +870,7 @@ const SCENARIOS = {
         {
           active:['user'], fns:{user:'fills AAPL, 10, 175.50'},
           title:'User opens the live demo',
-          body:'Sarah navigates to <code>gabriel-sentiment-tracker.streamlit.app</code>. Streamlit Cloud spins up a server and runs <code>streamlit_app.py</code> top to bottom for the first time. She sees the title, a blue demo-mode banner, and an empty portfolio message. The sidebar has a form with three fields — ticker, shares, cost per share — plus an Add button.',
+          body:'Sarah navigates to <code>gabriel-sentiment-tracker.streamlit.app</code>. Streamlit Cloud spins up a server and runs <code>streamlit_app.py</code> top to bottom for the first time. She sees the title, a blue demo-mode banner, and an empty portfolio message. The sidebar has a form with three fields - ticker, shares, cost per share - plus an Add button.',
           meta:{Triggered:'page load', 'Script run':'#1 (initial)'}
         },
         {
@@ -906,7 +906,7 @@ const SCENARIOS = {
         {
           active:['portfolio','json','yfinance'], fns:{portfolio:'get_current_prices', yfinance:'Ticker.history()'},
           title:'portfolio.py hits disk and yfinance',
-          body:'<code>portfolio_summary</code> reads the JSON again to get the holdings list, then calls <code>get_current_prices(["AAPL"])</code>. That function wraps <code>yf.Ticker("AAPL").history(period="1d")</code> and pulls the latest close — say $187.20. It enriches the holding with market value, cost basis, gain/loss, and percentage.',
+          body:'<code>portfolio_summary</code> reads the JSON again to get the holdings list, then calls <code>get_current_prices(["AAPL"])</code>. That function wraps <code>yf.Ticker("AAPL").history(period="1d")</code> and pulls the latest close - say $187.20. It enriches the holding with market value, cost basis, gain/loss, and percentage.',
           meta:{'Prices':'{AAPL: 187.20}', 'Gain/loss':'+$117.00 (+6.7%)'}
         },
         {
@@ -942,14 +942,14 @@ const SCENARIOS = {
         },
         {
           active:['sentiment','newsapi'], fns:{sentiment:'fetch_articles', newsapi:'returns demo headlines'},
-          title:'fetch_articles runs — demo mode',
+          title:'fetch_articles runs - demo mode',
           body:'Because DEMO_MODE is True on the public deployment, <code>fetch_articles</code> skips the NewsAPI HTTP call and returns the 5 hardcoded AAPL sample headlines from <code>_DEMO_ARTICLES</code>.',
           meta:{'Mode':'DEMO_MODE = True', 'Articles returned':'5'}
         },
         {
           active:['sentiment','vader'], fns:{sentiment:'score_text loop', vader:'polarity_scores'},
           title:'Each headline goes through VADER',
-          body:'The function loops the 5 headlines and calls <code>score_text(title)</code> for each one. VADER is a local lexicon scorer — no HTTP. It returns a dict like <code>{neg:0, neu:0.45, pos:0.54, compound:0.71}</code>. The compound scores are summed and averaged.',
+          body:'The function loops the 5 headlines and calls <code>score_text(title)</code> for each one. VADER is a local lexicon scorer - no HTTP. It returns a dict like <code>{neg:0, neu:0.45, pos:0.54, compound:0.71}</code>. The compound scores are summed and averaged.',
           meta:{'avg_compound':'~ +0.15 (mildly positive)'}
         },
         {
@@ -967,19 +967,19 @@ const SCENARIOS = {
         {
           active:['entry','sentiment','newsapi','vader'], fns:{entry:'loop other tickers', sentiment:'analyse_sentiment("TSLA")'},
           title:'Fetch sentiment for the other holdings',
-          body:'A scatter needs at least 2 points. The script loops remaining portfolio tickers — just TSLA in this case — and calls <code>analyse_sentiment("TSLA", page_size=10)</code>. That fires fetch_articles and VADER scoring all over again for TSLA.',
+          body:'A scatter needs at least 2 points. The script loops remaining portfolio tickers - just TSLA in this case - and calls <code>analyse_sentiment("TSLA", page_size=10)</code>. That fires fetch_articles and VADER scoring all over again for TSLA.',
           meta:{'TSLA avg_compound':'~ -0.05 (slightly negative)'}
         },
         {
           active:['entry'], fns:{entry:'numpy.corrcoef + polyfit'},
           title:'numpy computes Pearson r',
-          body:'Streamlit assembles four pieces of in-memory data — AAPL sentiment, TSLA sentiment, AAPL summary, TSLA summary — and zips them into parallel arrays <code>xs, ys, labels</code>. <code>np.corrcoef(xs, ys)[0,1]</code> returns the Pearson correlation. <code>np.polyfit(xs, ys, 1)</code> fits a regression line.',
+          body:'Streamlit assembles four pieces of in-memory data - AAPL sentiment, TSLA sentiment, AAPL summary, TSLA summary - and zips them into parallel arrays <code>xs, ys, labels</code>. <code>np.corrcoef(xs, ys)[0,1]</code> returns the Pearson correlation. <code>np.polyfit(xs, ys, 1)</code> fits a regression line.',
           meta:{'xs':'[0.15, -0.05]', 'ys':'[6.7, -4.2]', 'r':'≈ 0.98 (forced high with 2 points)'}
         },
         {
           active:['entry','output'], fns:{entry:'st.pyplot(fig2)', output:'scatter rendered in browser'},
           title:'Scatter plot streams to the browser',
-          body:'A matplotlib figure is built inline: blue dots for each ticker, annotated with the symbol, dashed regression line through them, legend showing <code>r = 0.98</code>. <code>st.pyplot</code> serializes the figure to PNG bytes and ships it over the websocket. Sarah now sees the full page — portfolio table, metrics, headlines, bar chart, scatter.',
+          body:'A matplotlib figure is built inline: blue dots for each ticker, annotated with the symbol, dashed regression line through them, legend showing <code>r = 0.98</code>. <code>st.pyplot</code> serializes the figure to PNG bytes and ships it over the websocket. Sarah now sees the full page - portfolio table, metrics, headlines, bar chart, scatter.',
           meta:{'Widget':'st.pyplot', 'Final state':'complete render'}
         },
       ]
@@ -1012,7 +1012,7 @@ const SCENARIOS = {
         {
           active:['user','entry'], fns:{user:'types ticker/shares/cost', entry:'three input() calls'},
           title:'handle_add fires three prompts',
-          body:'<code>handle_add</code> runs three input() calls in sequence — ticker, shares, cost. He types <code>AAPL</code>, <code>10</code>, <code>175.50</code>, pressing Enter between each. Shares and cost get wrapped in <code>float()</code>.',
+          body:'<code>handle_add</code> runs three input() calls in sequence - ticker, shares, cost. He types <code>AAPL</code>, <code>10</code>, <code>175.50</code>, pressing Enter between each. Shares and cost get wrapped in <code>float()</code>.',
           meta:{'Prompts':'Ticker → Shares → Cost/share'}
         },
         {
@@ -1030,7 +1030,7 @@ const SCENARIOS = {
         {
           active:['entry'], fns:{entry:'print confirmation'},
           title:'Confirmation prints, menu loops',
-          body:'handle_add prints <code>Portfolio updated: AAPL — 10.0 shares @ $175.50</code>. Control returns to <code>main()</code>. The while loop restarts — print_menu runs again, input() blocks again.',
+          body:'handle_add prints <code>Portfolio updated: AAPL - 10.0 shares @ $175.50</code>. Control returns to <code>main()</code>. The while loop restarts - print_menu runs again, input() blocks again.',
           meta:{'Next':'back to menu'}
         }
       ]
@@ -1054,7 +1054,7 @@ const SCENARIOS = {
         },
         {
           active:['entry','sentiment','newsapi'], fns:{entry:'loop iteration #1', sentiment:'analyse_sentiment("AAPL")'},
-          title:'Loop hits AAPL — fetch its headlines',
+          title:'Loop hits AAPL - fetch its headlines',
           body:'First iteration: <code>analyse_sentiment("AAPL", page_size=15)</code>. Inside, <code>fetch_articles</code> either hits NewsAPI (if a key is in the .env) or returns the AAPL demo set.',
           meta:{'Fn call':'analyse_sentiment("AAPL", 15)'}
         },
@@ -1066,7 +1066,7 @@ const SCENARIOS = {
         },
         {
           active:['entry','sentiment','newsapi','vader'], fns:{entry:'loop iteration #2', sentiment:'analyse_sentiment("TSLA")'},
-          title:'Loop hits TSLA — same pipeline again',
+          title:'Loop hits TSLA - same pipeline again',
           body:'Second iteration: same steps, for TSLA. Another dict appended to results.',
           meta:{'avg_compound':'~ -0.05'}
         },
@@ -1079,13 +1079,13 @@ const SCENARIOS = {
         {
           active:['visualize'], fns:{visualize:'plot_sentiment_bars(results)'},
           title:'Chart 1: the sentiment bar chart',
-          body:'<code>plot_sentiment_bars</code> builds a matplotlib figure with horizontal bars — green for positive avg_compound, red for negative. Saves <code>sentiment_bars.png</code> with <code>fig.savefig</code>.',
+          body:'<code>plot_sentiment_bars</code> builds a matplotlib figure with horizontal bars - green for positive avg_compound, red for negative. Saves <code>sentiment_bars.png</code> with <code>fig.savefig</code>.',
           meta:{'Output':'sentiment_bars.png'}
         },
         {
           active:['visualize','portfolio','yfinance','json'], fns:{visualize:'plot_portfolio_allocation', portfolio:'portfolio_summary()'},
           title:'Chart 2: allocation pie needs live prices',
-          body:'<code>plot_portfolio_allocation</code> calls <code>portfolio_summary()</code> to get market values — that re-reads the JSON and hits yfinance. Then it builds a pie chart and saves <code>portfolio_allocation.png</code>.',
+          body:'<code>plot_portfolio_allocation</code> calls <code>portfolio_summary()</code> to get market values - that re-reads the JSON and hits yfinance. Then it builds a pie chart and saves <code>portfolio_allocation.png</code>.',
           meta:{'Output':'portfolio_allocation.png'}
         },
         {
@@ -1343,7 +1343,7 @@ function applyStep() {
 
   const total = state.scenario.steps.length;
   document.getElementById('step-counter').textContent =
-    (state.mode === 'tour' ? 'file' : 'step') + ` ${state.stepIdx + 1} — ${total}`;
+    (state.mode === 'tour' ? 'file' : 'step') + ` ${state.stepIdx + 1} - ${total}`;
   document.getElementById('step-title').innerHTML = s.title;
   document.getElementById('step-body').innerHTML = s.body;
 
@@ -1411,7 +1411,7 @@ function getAnchor(node, side) {
 function renderDiagramScreen() {
   const d = DIAGRAMS[state.path];
   document.getElementById('diagram-title').textContent =
-    state.path === 'streamlit' ? 'Streamlit path — architecture diagram' : 'CLI path — architecture diagram';
+    state.path === 'streamlit' ? 'Streamlit path - architecture diagram' : 'CLI path - architecture diagram';
   document.getElementById('diagram-sub').textContent =
     state.path === 'streamlit'
       ? 'Connected-lines view of the Streamlit deployment. Hover over any line to see its label.'
