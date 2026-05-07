@@ -587,6 +587,16 @@
       <p class="lead">An interactive walkthrough of the same Python pipeline running two different ways - a web app on Streamlit Cloud and a local command-line tool. Pick a path, then tour the files, watch a real user session flow through the code, or view the connected-lines architecture diagram.</p>
     </div>
 
+    <div style="background:var(--bg-elev);border:1px solid var(--wire);border-left:3px solid var(--accent);border-radius:6px;padding:18px 22px;margin:8px 0 32px;font-size:14px;line-height:1.65;">
+      <div style="font-family:var(--font-display);font-weight:700;letter-spacing:-0.01em;font-size:16px;margin-bottom:8px;color:var(--accent);">Two sentiment engines, one pipeline.</div>
+      <p style="color:var(--fg-dim);margin:0 0 10px;">This walkthrough describes the original <b style="color:var(--fg);">VADER</b> version (lexicon-based, headline-only, ~1 MB). There is now also a <b style="color:var(--fg);">DistilBERT</b> branch that scores both the headline <em>and</em> the article description using a HuggingFace transformer model.</p>
+      <p style="color:var(--fg-dim);margin:0 0 10px;">Same pipeline shape (<code style="color:var(--accent);">analyse_sentiment</code> still returns a <code style="color:var(--accent);">compound</code> in <code style="color:var(--accent);">[-1, +1]</code>), different brain. The transformer reads description text the headline alone misses, at the cost of a one-time ~250 MB model download.</p>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;font-size:13px;">
+        <a href="https://github.com/gabrielchangamire-arch/sentiment-portfolio-tracker/tree/distilbert" target="_blank" rel="noreferrer" style="color:var(--accent);text-decoration:none;border-bottom:1px solid var(--accent-glow);">&rarr; DistilBERT branch on GitHub</a>
+        <a href="https://github.com/gabrielchangamire-arch/sentiment-portfolio-tracker" target="_blank" rel="noreferrer" style="color:var(--fg-dim);text-decoration:none;border-bottom:1px solid var(--wire);">&rarr; master (VADER, the version this page documents)</a>
+      </div>
+    </div>
+
     <div class="path-grid">
       <div class="path-card" onclick="setPath('streamlit')">
         <div class="tag">◦ path 01</div>
